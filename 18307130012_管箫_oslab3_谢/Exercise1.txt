@@ -1,0 +1,46 @@
+semaphore mutex = 1;		//篮子（缓冲区）互斥
+semaphore Pancake = 0;		//篮子中的煎饼果子
+semaphore Eggfilla = 0;		//篮子中的鸡蛋灌饼
+semaphore blanket = 1;		//篮子中空闲位
+
+producer_man() {
+	while(1) {
+		P(blanket);
+		P(mutex);
+		把煎饼果子放进篮子
+		V(mutex);
+		V(Pancake);
+	}
+}
+
+producer_woman() {
+	while(1) {
+		P(blanket);
+		P(mutex);
+		把鸡蛋灌饼放进篮子
+		V(mutex);
+		V(Eggfilla);
+	}
+}
+
+consumer_Pancake() {
+	while(1) {
+		P(Pancake);
+		P(mutex);
+		从篮子中取出煎饼果子
+		V(mutex);
+		V(blanket);
+		吃掉煎饼果子
+	}
+}
+
+consumer_Eggfilla() {
+	while(1) {
+		P(Eggfilla);
+		P(mutex);
+		从篮子中取出鸡蛋灌饼
+		V(mutex);
+		V(blanket);
+		吃掉鸡蛋灌饼
+	}
+}

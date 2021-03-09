@@ -1,0 +1,25 @@
+semaphore Customer = 0;		//是否有顾客的同步信号量
+semaphore mutex = 1;		//对变量的互斥锁
+int empty = N;				//空椅子数计量
+
+printer() {
+	while(1) {
+		P(Customer);
+		P(mutex);
+		empty++;
+		V(mutex);
+		打印
+	}
+}
+
+customer() {
+	while(1) {
+		P(mutex);
+		if(empty>0) {
+			empty--;
+			V(Customer);
+			等待
+		}
+		V(mutex);
+	}
+}
